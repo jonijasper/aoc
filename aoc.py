@@ -1,4 +1,5 @@
 import string
+import numpy as np
 
 
 def day_one():
@@ -80,12 +81,19 @@ def day_three():
         i = len(rucksack)//2
         a = set(rucksack[:i])
         b = set(rucksack[i:])
-        c = list(a.intersection(b))
-        mistakes.append(c[0])
+        mistakes.append(list(a & b)[0])
 
     priority = list(string.ascii_letters)
     sum_ = sum([priority.index(a)+1 for a in mistakes])
-    print(sum_)
+    print(f"part one: {sum_}")
+
+    N = len(contents)//3
+    ruccsacc = np.array(contents).reshape(N,3)
+    
+    badges = [list(set(a) & set(b) & set(c))[0] for a,b,c in ruccsacc]
+    
+    sum_ = sum([priority.index(a)+1 for a in badges])
+    print(f"part two: {sum_}")
 
 
 if __name__ == "__main__":
