@@ -1,4 +1,4 @@
-
+import string
 
 
 def day_one():
@@ -72,8 +72,20 @@ def day_two():
 
 
 def day_three():
-    # ooh boi here we go
-    pass 
+    with open("day_three-input.dat", 'r') as f:
+        contents = f.read().splitlines()
+
+    mistakes = []
+    for rucksack in contents:
+        i = len(rucksack)//2
+        a = set(rucksack[:i])
+        b = set(rucksack[i:])
+        c = list(a.intersection(b))
+        mistakes.append(c[0])
+
+    priority = list(string.ascii_letters)
+    sum_ = sum([priority.index(a)+1 for a in mistakes])
+    print(sum_)
 
 
 if __name__ == "__main__":
