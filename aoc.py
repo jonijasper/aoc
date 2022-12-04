@@ -1,5 +1,6 @@
 import string
 import numpy as np
+from axl_legacy_reader import txt2Array
 
 
 def day_one():
@@ -95,6 +96,32 @@ def day_three():
     sum_ = sum([priority.index(a)+1 for a in badges])
     print(f"part two: {sum_}")
 
+def day_four():
+    mylist = [row.split(',') for row in txt2Array("day_four-input.dat")]
+
+    part1_count = 0
+    part2_count = 0
+    for elf1, elf2 in mylist:
+        a,b = list(map(int,elf1.split('-')))
+        elf1_section = {i for i in range(a,b+1)}
+        
+        a,b = list(map(int,elf2.split('-')))
+        elf2_section = {i for i in range(a,b+1)}
+
+        section_overlap = elf1_section & elf2_section
+
+        # In how many assignment pairs does one range fully contain the other? 
+        if section_overlap == elf1_section or section_overlap == elf2_section:
+            part1_count += 1
+
+        # In how many assignment pairs do the ranges overlap?
+        if section_overlap:
+            part2_count += 1
+
+    print(f"part one: {part1_count}")
+    print(f"part two: {part2_count}")
+
+
 
 if __name__ == "__main__":
-    day_three()
+    day_four()
