@@ -121,7 +121,36 @@ def day_four():
     print(f"part one: {part1_count}")
     print(f"part two: {part2_count}")
 
+def day_five():
+    with open("day_five-input.dat", 'r') as f:
+        file = f.read()
 
+    stacks, instructions = file.split('\n\n')
+    N = int(stacks.splitlines()[-1].split()[-1])
+    stacks = stacks.splitlines()[:-1]
+    instructions = instructions.splitlines()
 
+    stack_list = [[] for i in range(N)]
+
+    for row in stacks[::-1]:
+        for i, char in enumerate(row[::4]):
+            if char == '[':
+                stack_list[i].append(row[i*4:i*4+3])
+                print(stack_list[i])
+
+    instruction_list = [list(map(int,row.split()[1::2])) 
+                        for row in instructions]
+
+    # move n from a to b
+    for n,a,b in instruction_list:
+        for i in range(n):
+            box = stack_list[a-1][-1]
+            stack_list[b-1].append(box)
+            stack_list[a-1].pop()
+    
+    message = "".join([stack[-1][1] for stack in stack_list])
+    print(message)
+    
+    
 if __name__ == "__main__":
-    day_four()
+    day_five()
