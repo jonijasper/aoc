@@ -1,5 +1,6 @@
 import string
 import numpy as np
+import copy
 from axl_legacy_reader import txt2Array
 
 
@@ -136,21 +137,27 @@ def day_five():
         for i, char in enumerate(row[::4]):
             if char == '[':
                 stack_list[i].append(row[i*4:i*4+3])
-                print(stack_list[i])
 
+    stack_list_1= copy.deepcopy(stack_list)
+    stack_list_2= copy.deepcopy(stack_list)
+    
     instruction_list = [list(map(int,row.split()[1::2])) 
                         for row in instructions]
-
+    
     # move n from a to b
     for n,a,b in instruction_list:
+        boxes = stack_list_2[a-1][-n:]
+        stack_list_2[b-1] += boxes
+        del stack_list_2[a-1][-n:]
         for i in range(n):
-            box = stack_list[a-1][-1]
-            stack_list[b-1].append(box)
-            stack_list[a-1].pop()
+            box = stack_list_1[a-1][-1]
+            stack_list_1[b-1].append(box)
+            stack_list_1[a-1].pop()
     
-    message = "".join([stack[-1][1] for stack in stack_list])
-    print(message)
-    
+    message = "".join([stack[-1][1] for stack in stack_list_1])
+    print(f"part one: {message}")
+    message2 = "".join([stack[-1][1] for stack in stack_list_2])
+    print(f"part two: {message2}")   
     
 if __name__ == "__main__":
     day_five()
