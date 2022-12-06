@@ -157,7 +157,33 @@ def day_five():
     message = "".join([stack[-1][1] for stack in stack_list_1])
     print(f"part one: {message}")
     message2 = "".join([stack[-1][1] for stack in stack_list_2])
-    print(f"part two: {message2}")   
+    print(f"part two: {message2}")
+
+
+def day_six():
+    datastream = txt2Array("day_six-input.dat")
+    part1 = 4
+    part2 = 14
+    for data in datastream:
+        for i,e in enumerate(data):
+            j = i+1
+            seq = set(data[j-part1:j])
+            if len(seq) == part1:
+                print(f"part one: {i+1}")
+                break
+    
+    for data in datastream:
+        for i,e in enumerate(data):
+            j = i+1
+            seq = set(data[j-part2:j])
+            if len(seq) == part2:
+                print(f"part two: {i+1}")
+                break
+
+
+def day_seven():
+    pass
+
     
 if __name__ == "__main__":
-    day_five()
+    day_six()
