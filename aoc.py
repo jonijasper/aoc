@@ -159,7 +159,6 @@ def day_five():
     message2 = "".join([stack[-1][1] for stack in stack_list_2])
     print(f"part two: {message2}")
 
-
 def day_six():
     datastream = txt2Array("day_six-input.dat")
     part1 = 4
@@ -180,10 +179,212 @@ def day_six():
                 print(f"part two: {i+1}")
                 break
 
+def day_seven_good_try():
+    # test works
+    with open("day_seven-test.dat",'r') as f:
+        asd = f.read().splitlines()
+
+    filesystem = {}
+    directory = '/'
+    dirsum = 0
+    parent = {}
+    for row in asd:
+        a = row.split()
+        if a[0] == '$':
+            # command
+            if a[1] == 'cd':
+                # change directory
+
+                if a[2] == '..':
+                    directory = parent[directory]
+
+                else:
+                    new_directory = a[2]
+                    parent[new_directory] = directory
+                    filesystem[new_directory] = []
+                    
+                    directory = new_directory
+            
+            if a[1] == 'ls':
+                # list directory items
+                pass
+
+        
+        if a[0] == 'dir':
+            # directory
+            filesystem[directory].append(a[1])
+
+        if a[0].isdigit():
+            # file
+            filesystem[directory].append(a[0])
+
+    dirsizes = {}
+    for key,value in filesystem.items():
+        # print(f"{key}: {value}")
+        digits = [a.isdigit() for a in value]
+
+        if all(digits):
+            dirsum = sum([int(a) for a in np.array(value)[digits]])
+            dirsizes[key] = dirsum
+
+    # print('---')
+    
+    done = False
+    stop = 0
+    while not done:
+        if stop == 10:
+            print("stopped")
+            break
+        stop += 1
+
+        donetest = []
+        for key,value in filesystem.items():
+            digits = [a.isdigit() for a in value]
+            donetest.append(all(digits))
+
+            if not all(digits):
+                for i,val in enumerate(value):
+                    if not val.isdigit():
+                        if val in dirsizes:
+                            value[i] = str(dirsizes[val])
+                            filesystem[key] = value
+
+                            digits2 = [a.isdigit() for a in value]
+                            if all(digits2):
+                                dirsum = sum([int(a) 
+                                        for a in np.array(value)[digits2]])
+                                dirsizes[key] = dirsum
+
+        done = all(donetest)
+    
+    N = 100000
+    total = 0
+    for key,value in filesystem.items():
+        print(f"{key}: {value}")
+        dirsum = sum([int(val) for val in value])
+        if dirsum<=N:
+            total += dirsum
+    
+    print(f"{total=}")
 
 def day_seven():
-    pass
+    # use linked list
+    class Directory():
+        def __init__(self,directory_name):
+            self.name = directory_name
+            self.parent = None
+            self.size = 0
+            self.dirs = {}
+            self.filesizes = []
+        
+        def ls(self):
+            for key, value in self.dirs.items():
+                print(f"dir {key}")
+            for file in self.filesizes:
+                print(file)
 
+    class Filesystem():
+        def __init__(self,root):
+            self.root = root
+            self.directories = {"dir0": root}
+            self.i = 1
+
+        def add_dir(self,dir):
+            self.directories[f"dir{self.i}"] = dir
+            self.i += 1
+
+        def print_system(self):
+            for key,value in self.directories.items():
+                print(f"{value.name}:")
+                value.ls()
+
+    with open("day_seven-input.dat",'r') as f:
+        asd = f.read().splitlines()
+
+    root = Directory('/')
+    filesystem = Filesystem(root)
+
+    for row in asd:
+        a = row.split()
+        if a[0] == '$':
+            # command
+            if a[1] == 'cd':
+                # change directory
+                move_to = a[2]
+                if move_to == '..':
+                    directory = directory.parent
+                
+                elif move_to == '/':
+                    directory = filesystem.root
+                
+                else:
+                    directory = directory.dirs[move_to]
+            
+            if a[1] == 'ls':
+                # list directory items
+                pass
+
+        
+        if a[0] == 'dir':
+            # directory
+            if a[1] not in directory.dirs:
+                new_dir = Directory(a[1])
+                new_dir.parent = directory
+                filesystem.add_dir(new_dir)
+                directory.dirs[new_dir.name] = new_dir
+
+        if a[0].isdigit():
+            # file
+            if a[0] not in directory.filesizes:
+                directory.filesizes.append(a[0])
     
+    # filesystem.print_system()
+
+    done = False
+    stop = 0
+    while not done:
+        if stop == 100:
+            print("stopped")
+            break
+        stop += 1
+
+        donetest = []
+        for _, dir in filesystem.directories.items():
+            if dir.dirs == {}:
+                donetest.append(True)
+                dir.size = sum([int(file) for file in dir.filesizes])
+            
+            else:
+                donetest.append(False)
+                rmdirs = []
+                for name,subdir in dir.dirs.items():
+                    if subdir.size:
+                        dir.filesizes.append(str(subdir.size))
+                        rmdirs.append(name)
+                
+                for name in rmdirs:
+                    del dir.dirs[name]
+
+        done = all(donetest)
+
+    N = 100000
+    disksize = 70000000
+    free_space = 30000000 - (disksize - filesystem.root.size)
+    
+    total1 = 0
+    pot_dirs = []
+    for _, dir in filesystem.directories.items():
+        if dir.size <=N:
+            total1 += dir.size
+        
+        if dir.size >= free_space:
+            pot_dirs.append(dir.size)
+
+    print(f"part one: {total1}")
+    print(f"part two: {min(pot_dirs)}")
+
+
+
+
 if __name__ == "__main__":
-    day_six()
+    day_seven()
