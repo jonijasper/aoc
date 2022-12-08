@@ -96,7 +96,7 @@ def day_three():
     print(f"part two: {sum_}")
 
 def day_four():
-    mylist = [row.split(',') for row in txt2array("inputs/day_four-input.dat")]
+    mylist = [row.split(',') for row in txt2Array("inputs/day_four-input.dat")]
 
     part1_count = 0
     part2_count = 0
@@ -158,7 +158,7 @@ def day_five():
     print(f"part two: {message2}")
 
 def day_six():
-    datastream = txt2array("inputs/day_six-input.dat")
+    datastream = txt2Array("inputs/day_six-input.dat")
     part1 = 4
     part2 = 14
     for data in datastream:
