@@ -5,7 +5,7 @@ from axl_legacy_reader import txt2Array
 
 
 def day_one():
-    with open("day_one-input.dat", 'r') as f:
+    with open("inputs/day_one-input.dat", 'r') as f:
         contents = f.read()
     
     elf_calories = [calories.split() for calories in contents.split('\n\n')]
@@ -21,7 +21,7 @@ def day_two():
     A B C
     X Y Z
     '''
-    with open("day_two-input.dat", 'r') as f:
+    with open("inputs/day_two-input.dat", 'r') as f:
         contents = f.read()
 
     guide = [row.split() for row in contents.split('\n')]
@@ -73,7 +73,7 @@ def day_two():
     print(f"part two: {my_score}")
 
 def day_three():
-    with open("day_three-input.dat", 'r') as f:
+    with open("inputs/day_three-input.dat", 'r') as f:
         contents = f.read().splitlines()
 
     mistakes = []
@@ -96,7 +96,7 @@ def day_three():
     print(f"part two: {sum_}")
 
 def day_four():
-    mylist = [row.split(',') for row in txt2Array("day_four-input.dat")]
+    mylist = [row.split(',') for row in txt2array("inputs/day_four-input.dat")]
 
     part1_count = 0
     part2_count = 0
@@ -121,7 +121,7 @@ def day_four():
     print(f"part two: {part2_count}")
 
 def day_five():
-    with open("day_five-input.dat", 'r') as f:
+    with open("inputs/day_five-input.dat", 'r') as f:
         file = f.read()
 
     stacks, instructions = file.split('\n\n')
@@ -158,7 +158,7 @@ def day_five():
     print(f"part two: {message2}")
 
 def day_six():
-    datastream = txt2Array("day_six-input.dat")
+    datastream = txt2array("inputs/day_six-input.dat")
     part1 = 4
     part2 = 14
     for data in datastream:
@@ -179,7 +179,7 @@ def day_six():
 
 def day_seven_good_try():
     # test works
-    with open("day_seven-test.dat",'r') as f:
+    with open("inputs/day_seven-test.dat",'r') as f:
         asd = f.read().splitlines()
 
     filesystem = {}
@@ -296,7 +296,7 @@ def day_seven():
                 print(f"{value.name}:")
                 value.ls()
 
-    with open("day_seven-input.dat",'r') as f:
+    with open("inputs/day_seven-input.dat",'r') as f:
         asd = f.read().splitlines()
 
     root = Directory('/')
