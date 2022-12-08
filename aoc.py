@@ -15,7 +15,6 @@ def day_one():
     print(f"part one: {total_cals[-1]}")
     print(f"part two: {sum(total_cals[-3:])}")
 
-
 def day_two():
     '''
     rock paper scissors
@@ -72,7 +71,6 @@ def day_two():
         my_score += scores[me]
 
     print(f"part two: {my_score}")
-
 
 def day_three():
     with open("day_three-input.dat", 'r') as f:
@@ -383,8 +381,3 @@ def day_seven():
     print(f"part one: {total1}")
     print(f"part two: {min(pot_dirs)}")
 
-
-
-
-if __name__ == "__main__":
-    day_seven()
