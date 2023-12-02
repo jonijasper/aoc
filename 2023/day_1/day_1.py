@@ -114,11 +114,13 @@ def recover_calibration_value_part2(document_filepath):
             elif line[::-1][i:i+4] == "enin":
                 calibration_value += "9"
                 break
+        
+        # with open("calibration_values.dat",'a') as f:
+        #     f.write(calibration_value+'\n')
 
         total_sum += int(calibration_value)
 
     print(total_sum)
 
 if __name__=="__main__":
-    # recover_calibration_value_part1("day_1/day_1_input.dat")
-    recover_calibration_value_part2("day_1/day_1_input.dat")
+    recover_calibration_value_part2("2023/day_1/day_1-input.dat")
