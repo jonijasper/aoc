@@ -120,4 +120,5 @@ def recover_calibration_value_part2(document_filepath):
     print(total_sum)
 
 if __name__=="__main__":
+    # recover_calibration_value_part1("day_1/day_1_input.dat")
     recover_calibration_value_part2("day_1/day_1_input.dat")
