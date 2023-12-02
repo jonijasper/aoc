@@ -37,7 +37,7 @@ def cube_game_part2(game_record):
 
     # print(record)
     power_sum = 0
-    for i,game in enumerate(record):
+    for game in record:
         bag = {"red": 0, "green": 0, "blue": 0}
         game = game.split(':')[1].split(';')
         for reveal in game:
